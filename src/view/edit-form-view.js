@@ -43,7 +43,7 @@ function createOffersSection(availableOffers, selectedOfferIds) {
     return '';
   }
 
-  const offersTemplate = availableOffers.map((offer) => 
+  const offersTemplate = availableOffers.map((offer) =>
     createOfferTemplate(offer, selectedOfferIds.includes(offer.id))
   ).join('');
 
@@ -62,7 +62,7 @@ function createDestinationSection(destination) {
     return '';
   }
 
-  const picturesTemplate = destination.pictures.map((picture) => 
+  const picturesTemplate = destination.pictures.map((picture) =>
     `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`
   ).join('');
 
@@ -81,7 +81,7 @@ function createDestinationSection(destination) {
 
 function createEditFormTemplate(point, destination, availableOffers) {
   const { type, basePrice, offers } = point;
-  
+
   const typeListTemplate = createTypeTemplate(type);
   const destinationListTemplate = createDestinationTemplate();
   const offersSectionTemplate = createOffersSection(availableOffers, offers);
