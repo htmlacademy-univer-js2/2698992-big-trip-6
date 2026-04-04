@@ -12,9 +12,9 @@ function createOfferTemplate(offer) {
 
 function createPointTemplate(point, destination, offers) {
   const { type, basePrice, isFavorite } = point;
-  
-  const favoriteClassName = isFavorite 
-    ? 'event__favorite-btn--active' 
+
+  const favoriteClassName = isFavorite
+    ? 'event__favorite-btn--active'
     : '';
 
   const offersTemplate = offers.map((offer) => createOfferTemplate(offer)).join('');
@@ -39,9 +39,9 @@ function createPointTemplate(point, destination, offers) {
           &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
-        <ul class="event__selected-offers">
+        <div class="event__selected-offers">
           ${offersTemplate}
-        </ul>
+        </div>
         <button class="event__favorite-btn ${favoriteClassName}" type="button">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">

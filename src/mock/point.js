@@ -4,23 +4,23 @@ import { TYPES, CITIES, DESCRIPTIONS } from './constants.js';
 const mockDestinations = [
   {
     id: 1,
-    description: getRandomValue(DESCRIPTIONS) + ' ' + getRandomValue(DESCRIPTIONS),
+    description: `${getRandomValue(DESCRIPTIONS)} ${getRandomValue(DESCRIPTIONS)}`,
     name: CITIES[0],
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: 'Random photo of ' + CITIES[0]
+        description: `Random photo of ${CITIES[0]}`
       }
     ]
   },
   {
     id: 2,
-    description: getRandomValue(DESCRIPTIONS) + ' ' + getRandomValue(DESCRIPTIONS),
+    description: `${getRandomValue(DESCRIPTIONS)} ${getRandomValue(DESCRIPTIONS)}`,
     name: CITIES[1],
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: 'Random photo of ' + CITIES[1]
+        description: `Random photo of ${CITIES[1]}`
       }
     ]
   },
@@ -31,7 +31,7 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: 'Random photo of ' + CITIES[2]
+        description: `Random photo of ${CITIES[2]}`
       }
     ]
   }

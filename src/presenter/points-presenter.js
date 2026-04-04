@@ -1,4 +1,3 @@
-import MakeFormView from '../view/make-form-view.js';
 import EditFormView from '../view/edit-form-view.js';
 import PointView from '../view/point-view.js';
 import SortView from '../view/sort-view.js';
@@ -22,11 +21,11 @@ export default class PointsPresenter {
     }), this.pointsEventsContainer);
 
     for (let i = 1; i < this.boardPoints.length; i++) {
-        render(new PointView({
-          point: this.boardPoints[i],
-          destination: this.pointsModel.getDestinationById(this.boardPoints[i].destination),
-          offers: this.pointsModel.getOffersById(this.boardPoints[i].type, this.boardPoints[i].offers)
-        }), this.pointsEventsContainer);
+      render(new PointView({
+        point: this.boardPoints[i],
+        destination: this.pointsModel.getDestinationById(this.boardPoints[i].destination),
+        offers: this.pointsModel.getOffersById(this.boardPoints[i].type, this.boardPoints[i].offers)
+      }), this.pointsEventsContainer);
     }
   }
 }
