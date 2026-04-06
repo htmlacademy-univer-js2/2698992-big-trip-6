@@ -1,5 +1,5 @@
-import { getRandomInteger, getRandomValue } from "../utils/utils.js";
-import { TYPES, CITIES, DESCRIPTIONS } from "./constants.js";
+import { getRandomInteger, getRandomValue } from '../utils/utils.js';
+import { TYPES, CITIES, DESCRIPTIONS } from './constants.js';
 
 const mockDestinations = [
   {
@@ -39,41 +39,41 @@ const mockDestinations = [
 
 const mockOffers = [
   {
-    type: "taxi",
+    type: 'taxi',
     offers: [
       {
         id: 1,
-        title: "Order Uber",
+        title: 'Order Uber',
         price: 20,
       },
       {
         id: 2,
-        title: "Choose comfort",
+        title: 'Choose comfort',
         price: 35,
       },
     ],
   },
   {
-    type: "flight",
+    type: 'flight',
     offers: [
       {
         id: 1,
-        title: "Add luggage",
+        title: 'Add luggage',
         price: 50,
       },
       {
         id: 2,
-        title: "Switch to comfort",
+        title: 'Switch to comfort',
         price: 80,
       },
     ],
   },
   {
-    type: "train",
+    type: 'train',
     offers: [
       {
         id: 1,
-        title: "Add meal",
+        title: 'Add meal',
         price: 15,
       },
     ],
@@ -97,8 +97,8 @@ const generatePoint = () => {
   const destinationId = getRandomDestinationId();
   return {
     basePrice: getRandomInteger(100, 1500),
-    dateFrom: new Date("2019-07-10T22:55:56.845Z"),
-    dateTo: new Date("2019-07-11T11:22:13.375Z"),
+    dateFrom: new Date('2019-07-10T22:55:56.845Z'),
+    dateTo: new Date('2019-07-11T11:22:13.375Z'),
     destination: destinationId,
     id: String(getRandomInteger(1, 1000)),
     isFavorite: Boolean(getRandomInteger(0, 1)),

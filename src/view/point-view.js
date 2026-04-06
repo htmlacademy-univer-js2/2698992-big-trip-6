@@ -1,4 +1,4 @@
-import AbstractView from "../framework/view/abstract-view.js";
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createOfferTemplate(offer) {
   return `<li class="event__offer">
@@ -11,11 +11,11 @@ function createOfferTemplate(offer) {
 function createPointTemplate(point, destination, offers) {
   const { type, basePrice, isFavorite } = point;
 
-  const favoriteClassName = isFavorite ? "event__favorite-btn--active" : "";
+  const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
 
   const offersTemplate = offers
     .map((offer) => createOfferTemplate(offer))
-    .join("");
+    .join('');
 
   return `<li class="trip-events__item">
       <div class="event">
@@ -66,8 +66,8 @@ export default class PointView extends AbstractView {
     this.#onEditClick = onEditClick;
 
     this.element
-      .querySelector(".event__rollup-btn")
-      .addEventListener("click", this.#editClickHandler);
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
   }
 
   get template() {

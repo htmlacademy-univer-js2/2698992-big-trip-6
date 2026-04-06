@@ -1,12 +1,12 @@
-import AbstractView from "../framework/view/abstract-view.js";
-import { TYPES, CITIES } from "../mock/constants.js";
+import AbstractView from '../framework/view/abstract-view.js';
+import { TYPES, CITIES } from '../mock/constants.js';
 
 const BLANK_POINT = {
   basePrice: 0,
   dateFrom: null,
   dateTo: null,
-  destination: "",
-  id: "",
+  destination: '',
+  id: '',
   isFavorite: false,
   offers: [],
   type: TYPES[0],
@@ -16,19 +16,19 @@ function createTypeTemplate(currentType) {
   return TYPES.map(
     (type) =>
       `<div class="event__type-item">
-      <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${currentType === type ? "checked" : ""}>
+      <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${currentType === type ? 'checked' : ''}>
       <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
     </div>`,
-  ).join("");
+  ).join('');
 }
 
 function createDestinationTemplate() {
-  return CITIES.map((city) => `<option value="${city}"></option>`).join("");
+  return CITIES.map((city) => `<option value="${city}"></option>`).join('');
 }
 
 function createOfferTemplate(offer, isChecked) {
   return `<div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}-1" type="checkbox" name="event-offer-${offer.id}" ${isChecked ? "checked" : ""}>
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}-1" type="checkbox" name="event-offer-${offer.id}" ${isChecked ? 'checked' : ''}>
       <label class="event__offer-label" for="event-offer-${offer.id}-1">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
@@ -39,14 +39,14 @@ function createOfferTemplate(offer, isChecked) {
 
 function createOffersSection(availableOffers, selectedOfferIds) {
   if (!availableOffers || availableOffers.length === 0) {
-    return "";
+    return '';
   }
 
   const offersTemplate = availableOffers
     .map((offer) =>
       createOfferTemplate(offer, selectedOfferIds.includes(offer.id)),
     )
-    .join("");
+    .join('');
 
   return `<section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -58,7 +58,7 @@ function createOffersSection(availableOffers, selectedOfferIds) {
 
 function createDestinationSection(destination) {
   if (!destination) {
-    return "";
+    return '';
   }
 
   const picturesTemplate = destination.pictures
@@ -66,7 +66,7 @@ function createDestinationSection(destination) {
       (picture) =>
         `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`,
     )
-    .join("");
+    .join('');
 
   return `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -109,7 +109,7 @@ function createEditFormTemplate(point, destination, availableOffers) {
             <label class="event__label  event__type-output" for="event-destination-1">
               ${type}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination ? destination.name : ""}" list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination ? destination.name : ''}" list="destination-list-1">
             <datalist id="destination-list-1">
               ${destinationListTemplate}
             </datalist>
@@ -167,11 +167,11 @@ export default class EditFormView extends AbstractView {
     this.#onRollupClick = onRollupClick;
 
     this.element
-      .querySelector(".event--edit")
-      .addEventListener("submit", this.#formSubmitHandler);
+      .querySelector('.event--edit')
+      .addEventListener('submit', this.#formSubmitHandler);
     this.element
-      .querySelector(".event__rollup-btn")
-      .addEventListener("click", this.#rollupClickHandler);
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#rollupClickHandler);
   }
 
   get template() {
