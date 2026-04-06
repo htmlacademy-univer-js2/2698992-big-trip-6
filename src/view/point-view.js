@@ -1,26 +1,23 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createOfferTemplate(offer) {
-  return (
-    `<li class="event__offer">
+  return `<li class="event__offer">
       <span class="event__offer-title">${offer.title}</span>
       &plus;&euro;&nbsp;
       <span class="event__offer-price">${offer.price}</span>
-    </li>`
-  );
+    </li>`;
 }
 
 function createPointTemplate(point, destination, offers) {
   const { type, basePrice, isFavorite } = point;
 
-  const favoriteClassName = isFavorite
-    ? 'event__favorite-btn--active'
-    : '';
+  const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
 
-  const offersTemplate = offers.map((offer) => createOfferTemplate(offer)).join('');
+  const offersTemplate = offers
+    .map((offer) => createOfferTemplate(offer))
+    .join('');
 
-  return (
-    `<li class="trip-events__item">
+  return `<li class="trip-events__item">
       <div class="event">
         <time class="event__date" datetime="2019-03-18">MAR 18</time>
         <div class="event__type">
@@ -52,29 +49,33 @@ function createPointTemplate(point, destination, offers) {
           <span class="visually-hidden">Open event</span>
         </button>
       </div>
-    </li>`
-  );
+    </li>`;
 }
 
-export default class PointView {
-  constructor({point, destination, offers}) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
+export default class PointView extends AbstractView {
+  #point = null;
+  #destination = null;
+  #offers = null;
+  #onEditClick = null;
+
+  constructor({ point, destination, offers, onEditClick }) {
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
+    this.#onEditClick = onEditClick;
+
+    this.element
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
   }
 
-  getTemplate() {
-    return createPointTemplate(this.point, this.destination, this.offers);
+  get template() {
+    return createPointTemplate(this.#point, this.#destination, this.#offers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#onEditClick?.();
+  };
 }

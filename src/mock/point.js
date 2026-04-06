@@ -9,9 +9,9 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: `Random photo of ${CITIES[0]}`
-      }
-    ]
+        description: `Random photo of ${CITIES[0]}`,
+      },
+    ],
   },
   {
     id: 2,
@@ -20,9 +20,9 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: `Random photo of ${CITIES[1]}`
-      }
-    ]
+        description: `Random photo of ${CITIES[1]}`,
+      },
+    ],
   },
   {
     id: 3,
@@ -31,10 +31,10 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: `Random photo of ${CITIES[2]}`
-      }
-    ]
-  }
+        description: `Random photo of ${CITIES[2]}`,
+      },
+    ],
+  },
 ];
 
 const mockOffers = [
@@ -44,14 +44,14 @@ const mockOffers = [
       {
         id: 1,
         title: 'Order Uber',
-        price: 20
+        price: 20,
       },
       {
         id: 2,
         title: 'Choose comfort',
-        price: 35
-      }
-    ]
+        price: 35,
+      },
+    ],
   },
   {
     type: 'flight',
@@ -59,14 +59,14 @@ const mockOffers = [
       {
         id: 1,
         title: 'Add luggage',
-        price: 50
+        price: 50,
       },
       {
         id: 2,
         title: 'Switch to comfort',
-        price: 80
-      }
-    ]
+        price: 80,
+      },
+    ],
   },
   {
     type: 'train',
@@ -74,10 +74,10 @@ const mockOffers = [
       {
         id: 1,
         title: 'Add meal',
-        price: 15
-      }
-    ]
-  }
+        price: 15,
+      },
+    ],
+  },
 ];
 
 const getRandomOffers = (type) => {
@@ -85,7 +85,9 @@ const getRandomOffers = (type) => {
   if (!offersByType) {
     return [];
   }
-  return offersByType.offers.map((offer) => offer.id).slice(0, getRandomInteger(1, offersByType.offers.length));
+  return offersByType.offers
+    .map((offer) => offer.id)
+    .slice(0, getRandomInteger(1, offersByType.offers.length));
 };
 
 const getRandomDestinationId = () => getRandomValue(mockDestinations).id;
@@ -101,7 +103,7 @@ const generatePoint = () => {
     id: String(getRandomInteger(1, 1000)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     offers: getRandomOffers(type),
-    type
+    type,
   };
 };
 

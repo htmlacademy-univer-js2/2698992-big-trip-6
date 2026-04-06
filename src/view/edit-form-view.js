@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { TYPES, CITIES } from '../mock/constants.js';
 
 const BLANK_POINT = {
@@ -9,16 +9,17 @@ const BLANK_POINT = {
   id: '',
   isFavorite: false,
   offers: [],
-  type: TYPES[0]
+  type: TYPES[0],
 };
 
 function createTypeTemplate(currentType) {
-  return TYPES.map((type) => (
-    `<div class="event__type-item">
+  return TYPES.map(
+    (type) =>
+      `<div class="event__type-item">
       <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${currentType === type ? 'checked' : ''}>
       <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
-    </div>`
-  )).join('');
+    </div>`,
+  ).join('');
 }
 
 function createDestinationTemplate() {
@@ -26,16 +27,14 @@ function createDestinationTemplate() {
 }
 
 function createOfferTemplate(offer, isChecked) {
-  return (
-    `<div class="event__offer-selector">
+  return `<div class="event__offer-selector">
       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}-1" type="checkbox" name="event-offer-${offer.id}" ${isChecked ? 'checked' : ''}>
       <label class="event__offer-label" for="event-offer-${offer.id}-1">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
       </label>
-    </div>`
-  );
+    </div>`;
 }
 
 function createOffersSection(availableOffers, selectedOfferIds) {
@@ -43,18 +42,18 @@ function createOffersSection(availableOffers, selectedOfferIds) {
     return '';
   }
 
-  const offersTemplate = availableOffers.map((offer) =>
-    createOfferTemplate(offer, selectedOfferIds.includes(offer.id))
-  ).join('');
+  const offersTemplate = availableOffers
+    .map((offer) =>
+      createOfferTemplate(offer, selectedOfferIds.includes(offer.id)),
+    )
+    .join('');
 
-  return (
-    `<section class="event__section  event__section--offers">
+  return `<section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
       <div class="event__available-offers">
         ${offersTemplate}
       </div>
-    </section>`
-  );
+    </section>`;
 }
 
 function createDestinationSection(destination) {
@@ -62,12 +61,14 @@ function createDestinationSection(destination) {
     return '';
   }
 
-  const picturesTemplate = destination.pictures.map((picture) =>
-    `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`
-  ).join('');
+  const picturesTemplate = destination.pictures
+    .map(
+      (picture) =>
+        `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`,
+    )
+    .join('');
 
-  return (
-    `<section class="event__section  event__section--destination">
+  return `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${destination.description}</p>
       <div class="event__photos-container">
@@ -75,8 +76,7 @@ function createDestinationSection(destination) {
           ${picturesTemplate}
         </div>
       </div>
-    </section>`
-  );
+    </section>`;
 }
 
 function createEditFormTemplate(point, destination, availableOffers) {
@@ -87,8 +87,7 @@ function createEditFormTemplate(point, destination, availableOffers) {
   const offersSectionTemplate = createOffersSection(availableOffers, offers);
   const destinationSectionTemplate = createDestinationSection(destination);
 
-  return (
-    `<li class="trip-events__item">
+  return `<li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
           <div class="event__type-wrapper">
@@ -143,29 +142,49 @@ function createEditFormTemplate(point, destination, availableOffers) {
           ${destinationSectionTemplate}
         </section>
       </form>
-    </li>`
-  );
+    </li>`;
 }
 
-export default class EditFormView {
-  constructor({point = BLANK_POINT, destination, offers}) {
-    this.point = point;
-    this.destination = destination;
-    this.offers = offers;
+export default class EditFormView extends AbstractView {
+  #point = BLANK_POINT;
+  #destination = null;
+  #offers = null;
+  #onFormSubmit = null;
+  #onRollupClick = null;
+
+  constructor({
+    point = BLANK_POINT,
+    destination,
+    offers,
+    onFormSubmit,
+    onRollupClick,
+  }) {
+    super();
+    this.#point = point;
+    this.#destination = destination;
+    this.#offers = offers;
+    this.#onFormSubmit = onFormSubmit;
+    this.#onRollupClick = onRollupClick;
+
+    this.element
+      .querySelector('.event--edit')
+      .addEventListener('submit', this.#formSubmitHandler);
+    this.element
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#rollupClickHandler);
   }
 
-  getTemplate() {
-    return createEditFormTemplate(this.point, this.destination, this.offers);
+  get template() {
+    return createEditFormTemplate(this.#point, this.#destination, this.#offers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#onFormSubmit?.();
+  };
 
-  removeElement() {
-    this.element = null;
-  }
+  #rollupClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#onRollupClick?.();
+  };
 }
