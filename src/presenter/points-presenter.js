@@ -1,8 +1,8 @@
-import EditFormView from "../view/edit-form-view.js";
-import NoPointView from "../view/no-point-view.js";
-import PointView from "../view/point-view.js";
-import SortView from "../view/sort-view.js";
-import { render, replace } from "../framework/render.js";
+import EditFormView from '../view/edit-form-view.js';
+import NoPointView from '../view/no-point-view.js';
+import PointView from '../view/point-view.js';
+import SortView from '../view/sort-view.js';
+import { render, replace } from '../framework/render.js';
 
 export default class PointsPresenter {
   #pointsEventsContainer = null;
@@ -28,13 +28,13 @@ export default class PointsPresenter {
       let editFormComponent = null;
 
       const onEscKeyDown = (evt) => {
-        if (evt.key !== "Escape") {
+        if (evt.key !== 'Escape') {
           return;
         }
 
         evt.preventDefault();
         replace(pointComponent, editFormComponent);
-        document.removeEventListener("keydown", onEscKeyDown);
+        document.removeEventListener('keydown', onEscKeyDown);
       };
 
       pointComponent = new PointView({
@@ -43,7 +43,7 @@ export default class PointsPresenter {
         offers: this.#pointsModel.getOffersById(point.type, point.offers),
         onEditClick: () => {
           replace(editFormComponent, pointComponent);
-          document.addEventListener("keydown", onEscKeyDown);
+          document.addEventListener('keydown', onEscKeyDown);
         },
       });
 
@@ -53,11 +53,11 @@ export default class PointsPresenter {
         offers: this.#pointsModel.getOffersByType(point.type),
         onFormSubmit: () => {
           replace(pointComponent, editFormComponent);
-          document.removeEventListener("keydown", onEscKeyDown);
+          document.removeEventListener('keydown', onEscKeyDown);
         },
         onRollupClick: () => {
           replace(pointComponent, editFormComponent);
-          document.removeEventListener("keydown", onEscKeyDown);
+          document.removeEventListener('keydown', onEscKeyDown);
         },
       });
 

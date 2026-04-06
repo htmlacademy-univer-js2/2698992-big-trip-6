@@ -1,8 +1,8 @@
 const FilterType = {
-  EVERYTHING: "everything",
-  FUTURE: "future",
-  PRESENT: "present",
-  PAST: "past",
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
 };
 
 const isFuturePoint = (point) => point.dateFrom > new Date();
@@ -20,22 +20,22 @@ const filter = {
 const generateFilters = (points) => [
   {
     type: FilterType.EVERYTHING,
-    name: "Everything",
+    name: 'Everything',
     isDisabled: false,
   },
   {
     type: FilterType.FUTURE,
-    name: "Future",
+    name: 'Future',
     isDisabled: filter[FilterType.FUTURE](points).length === 0,
   },
   {
     type: FilterType.PRESENT,
-    name: "Present",
+    name: 'Present',
     isDisabled: filter[FilterType.PRESENT](points).length === 0,
   },
   {
     type: FilterType.PAST,
-    name: "Past",
+    name: 'Past',
     isDisabled: filter[FilterType.PAST](points).length === 0,
   },
 ];
