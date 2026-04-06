@@ -1,5 +1,5 @@
-import { getRandomInteger, getRandomValue } from '../utils/utils.js';
-import { TYPES, CITIES, DESCRIPTIONS } from './constants.js';
+import { getRandomInteger, getRandomValue } from "../utils/utils.js";
+import { TYPES, CITIES, DESCRIPTIONS } from "./constants.js";
 
 const mockDestinations = [
   {
@@ -9,9 +9,9 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: `Random photo of ${CITIES[0]}`
-      }
-    ]
+        description: `Random photo of ${CITIES[0]}`,
+      },
+    ],
   },
   {
     id: 2,
@@ -20,9 +20,9 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: `Random photo of ${CITIES[1]}`
-      }
-    ]
+        description: `Random photo of ${CITIES[1]}`,
+      },
+    ],
   },
   {
     id: 3,
@@ -31,53 +31,53 @@ const mockDestinations = [
     pictures: [
       {
         src: `https://loremflickr.com/248/152?random=${getRandomInteger(1, 100)}`,
-        description: `Random photo of ${CITIES[2]}`
-      }
-    ]
-  }
+        description: `Random photo of ${CITIES[2]}`,
+      },
+    ],
+  },
 ];
 
 const mockOffers = [
   {
-    type: 'taxi',
+    type: "taxi",
     offers: [
       {
         id: 1,
-        title: 'Order Uber',
-        price: 20
+        title: "Order Uber",
+        price: 20,
       },
       {
         id: 2,
-        title: 'Choose comfort',
-        price: 35
-      }
-    ]
+        title: "Choose comfort",
+        price: 35,
+      },
+    ],
   },
   {
-    type: 'flight',
+    type: "flight",
     offers: [
       {
         id: 1,
-        title: 'Add luggage',
-        price: 50
+        title: "Add luggage",
+        price: 50,
       },
       {
         id: 2,
-        title: 'Switch to comfort',
-        price: 80
-      }
-    ]
+        title: "Switch to comfort",
+        price: 80,
+      },
+    ],
   },
   {
-    type: 'train',
+    type: "train",
     offers: [
       {
         id: 1,
-        title: 'Add meal',
-        price: 15
-      }
-    ]
-  }
+        title: "Add meal",
+        price: 15,
+      },
+    ],
+  },
 ];
 
 const getRandomOffers = (type) => {
@@ -85,7 +85,9 @@ const getRandomOffers = (type) => {
   if (!offersByType) {
     return [];
   }
-  return offersByType.offers.map((offer) => offer.id).slice(0, getRandomInteger(1, offersByType.offers.length));
+  return offersByType.offers
+    .map((offer) => offer.id)
+    .slice(0, getRandomInteger(1, offersByType.offers.length));
 };
 
 const getRandomDestinationId = () => getRandomValue(mockDestinations).id;
@@ -95,13 +97,13 @@ const generatePoint = () => {
   const destinationId = getRandomDestinationId();
   return {
     basePrice: getRandomInteger(100, 1500),
-    dateFrom: new Date('2019-07-10T22:55:56.845Z'),
-    dateTo: new Date('2019-07-11T11:22:13.375Z'),
+    dateFrom: new Date("2019-07-10T22:55:56.845Z"),
+    dateTo: new Date("2019-07-11T11:22:13.375Z"),
     destination: destinationId,
     id: String(getRandomInteger(1, 1000)),
     isFavorite: Boolean(getRandomInteger(0, 1)),
     offers: getRandomOffers(type),
-    type
+    type,
   };
 };
 
