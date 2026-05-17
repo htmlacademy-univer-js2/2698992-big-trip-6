@@ -1,10 +1,10 @@
-import { render, replace, remove } from '../framework/render.js';
-import EditFormView from '../view/edit-form-view.js';
-import PointView from '../view/point-view.js';
+import { render, replace, remove } from "../framework/render.js";
+import EditFormView from "../view/edit-form-view.js";
+import PointView from "../view/point-view.js";
 
 const Mode = {
-  DEFAULT: 'DEFAULT',
-  EDITING: 'EDITING',
+  DEFAULT: "DEFAULT",
+  EDITING: "EDITING",
 };
 
 export default class PointPresenter {
@@ -86,13 +86,13 @@ export default class PointPresenter {
 
   #replacePointToForm() {
     replace(this.#editFormComponent, this.#pointComponent);
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+    document.addEventListener("keydown", this.#escKeyDownHandler);
     this.#mode = Mode.EDITING;
   }
 
   #replaceFormToPoint() {
     replace(this.#pointComponent, this.#editFormComponent);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+    document.removeEventListener("keydown", this.#escKeyDownHandler);
     this.#mode = Mode.DEFAULT;
   }
 
@@ -117,7 +117,7 @@ export default class PointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    if (evt.key !== 'Escape') {
+    if (evt.key !== "Escape") {
       return;
     }
 

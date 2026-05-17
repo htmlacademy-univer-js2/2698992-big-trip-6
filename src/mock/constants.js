@@ -2,6 +2,14 @@ export const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-
 
 export const CITIES = ['Amsterdam', 'Geneva', 'Chamonix', 'Paris', 'New York', 'London', 'Tokyo'];
 
+export const SortType = {
+  DAY: 'sort-day',
+  EVENT: 'sort-event',
+  TIME: 'sort-time',
+  PRICE: 'sort-price',
+  OFFER: 'sort-offer'
+};
+
 export const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -13,5 +21,5 @@ export const DESCRIPTIONS = [
   'Sed sed nisi sed augue convallis suscipit in sed felis.',
   'Aliquam erat volutpat.',
   'Nunc fermentum tortor ac porta dapibus.',
-  'In rutrum ac purus sit amet tempu.'
+  'In rutrum ac purus sit amet tempus.'
 ];
