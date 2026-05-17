@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractView from "../framework/view/abstract-view.js";
 
 function createOfferTemplate(offer) {
   return `<li class="event__offer">
@@ -11,11 +11,11 @@ function createOfferTemplate(offer) {
 function createPointTemplate(point, destination, offers) {
   const { type, basePrice, isFavorite } = point;
 
-  const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
+  const favoriteClassName = isFavorite ? "event__favorite-btn--active" : "";
 
   const offersTemplate = offers
     .map((offer) => createOfferTemplate(offer))
-    .join('');
+    .join("");
 
   return `<li class="trip-events__item">
       <div class="event">
@@ -57,17 +57,22 @@ export default class PointView extends AbstractView {
   #destination = null;
   #offers = null;
   #onEditClick = null;
+  #onFavoriteClick = null;
 
-  constructor({ point, destination, offers, onEditClick }) {
+  constructor({ point, destination, offers, onEditClick, onFavoriteClick }) {
     super();
     this.#point = point;
     this.#destination = destination;
     this.#offers = offers;
     this.#onEditClick = onEditClick;
+    this.#onFavoriteClick = onFavoriteClick;
 
     this.element
-      .querySelector('.event__rollup-btn')
-      .addEventListener('click', this.#editClickHandler);
+      .querySelector(".event__rollup-btn")
+      .addEventListener("click", this.#editClickHandler);
+    this.element
+      .querySelector(".event__favorite-btn")
+      .addEventListener("click", this.#favoriteClickHandler);
   }
 
   get template() {
@@ -77,5 +82,10 @@ export default class PointView extends AbstractView {
   #editClickHandler = (evt) => {
     evt.preventDefault();
     this.#onEditClick?.();
+  };
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#onFavoriteClick?.();
   };
 }
