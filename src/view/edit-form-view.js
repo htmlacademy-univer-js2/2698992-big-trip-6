@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { TYPES, CITIES } from '../mock/constants.js';
+import { TYPES } from '../mock/constants.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { formatDate } from '../utils/utils.js';
@@ -213,7 +213,7 @@ export default class EditFormView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
-    
+
     const availableOffersContainer = this.element.querySelector('.event__available-offers');
     if (availableOffersContainer) {
       availableOffersContainer.addEventListener('change', this.#offerChangeHandler);

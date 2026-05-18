@@ -21,6 +21,13 @@ const filterPresenter = new FilterPresenter({
   pointsModel,
 });
 
+const pointsPresenter = new PointsPresenter({
+  pointsEventsContainer: tripEventsElement,
+  pointsModel,
+  filterModel,
+  onNewPointDestroy: handleNewPointFormClose
+});
+
 const handleNewPointFormClose = () => {
   newEventButtonElement.disabled = false;
 };
@@ -29,13 +36,6 @@ const handleNewPointButtonClick = () => {
   pointsPresenter.createPoint();
   newEventButtonElement.disabled = true;
 };
-
-const pointsPresenter = new PointsPresenter({
-  pointsEventsContainer: tripEventsElement,
-  pointsModel,
-  filterModel,
-  onNewPointDestroy: handleNewPointFormClose
-});
 
 filterPresenter.init();
 pointsPresenter.init();
