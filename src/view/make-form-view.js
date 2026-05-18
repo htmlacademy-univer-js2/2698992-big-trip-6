@@ -179,7 +179,7 @@ export default class MakeFormView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
-    
+
     const availableOffersContainer = this.element.querySelector('.event__available-offers');
     if (availableOffersContainer) {
       availableOffersContainer.addEventListener('change', this.#offerChangeHandler);
