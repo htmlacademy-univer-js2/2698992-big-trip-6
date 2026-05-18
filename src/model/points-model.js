@@ -1,5 +1,5 @@
 import Observable from '../framework/observable.js';
-import { generatePoint, mockDestinations, mockOffers } from "../mock/point.js";
+import { generatePoint, mockDestinations, mockOffers } from '../mock/point.js';
 
 const POINT_COUNT = 3;
 

@@ -1,11 +1,11 @@
-import { render, remove } from "../framework/render.js";
-import PointPresenter from "./point-presenter.js";
-import NewPointPresenter from "./new-point-presenter.js";
-import NoPointView from "../view/no-point-view.js";
-import SortView from "../view/sort-view.js";
-import { SortType, UpdateType, UserAction, FilterType } from "../mock/constants.js";
-import { sortPointByDay, sortPointByTime, sortPointByPrice } from "../utils/utils.js";
-import { filter } from "../utils/filter.js";
+import { render, remove } from '../framework/render.js';
+import PointPresenter from './point-presenter.js';
+import NewPointPresenter from './new-point-presenter.js';
+import NoPointView from '../view/no-point-view.js';
+import SortView from '../view/sort-view.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../mock/constants.js';
+import { sortPointByDay, sortPointByTime, sortPointByPrice } from '../utils/utils.js';
+import { filter } from '../utils/filter.js';
 
 export default class PointsPresenter {
   #pointsEventsContainer = null;
