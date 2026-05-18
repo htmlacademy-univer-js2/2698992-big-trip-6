@@ -1,9 +1,9 @@
-import { render } from '../framework/render.js';
-import PointPresenter from './point-presenter.js';
-import NoPointView from '../view/no-point-view.js';
-import SortView from '../view/sort-view.js';
-import { SortType } from '../mock/constants.js';
-import { sortPointByDay, sortPointByTime, sortPointByPrice } from '../utils/utils.js';
+import { render } from "../framework/render.js";
+import PointPresenter from "./point-presenter.js";
+import NoPointView from "../view/no-point-view.js";
+import SortView from "../view/sort-view.js";
+import { SortType } from "../mock/constants.js";
+import { sortPointByDay, sortPointByTime, sortPointByPrice } from "../utils/utils.js";
 
 export default class PointsPresenter {
   #pointsEventsContainer = null;
