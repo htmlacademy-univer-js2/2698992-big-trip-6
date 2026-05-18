@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import { formatDate, calculateDuration } from '../utils/utils.js';
 
 function createOfferTemplate(offer) {
   return `<li class="event__offer">
@@ -9,7 +10,7 @@ function createOfferTemplate(offer) {
 }
 
 function createPointTemplate(point, destination, offers) {
-  const { type, basePrice, isFavorite } = point;
+  const { type, basePrice, isFavorite, dateFrom, dateTo } = point;
 
   const favoriteClassName = isFavorite ? 'event__favorite-btn--active' : '';
 
@@ -19,18 +20,18 @@ function createPointTemplate(point, destination, offers) {
 
   return `<li class="trip-events__item">
       <div class="event">
-        <time class="event__date" datetime="2019-03-18">MAR 18</time>
+        <time class="event__date" datetime="${formatDate(dateFrom, 'YYYY-MM-DD')}">${formatDate(dateFrom, 'MMM DD')}</time>
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
         <h3 class="event__title">${type} ${destination.name}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+            <time class="event__start-time" datetime="${formatDate(dateFrom, 'YYYY-MM-DDTHH:mm')}">${formatDate(dateFrom, 'HH:mm')}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+            <time class="event__end-time" datetime="${formatDate(dateTo, 'YYYY-MM-DDTHH:mm')}">${formatDate(dateTo, 'HH:mm')}</time>
           </p>
-          <p class="event__duration">30M</p>
+          <p class="event__duration">${calculateDuration(dateFrom, dateTo)}</p>
         </div>
         <p class="event__price">
           &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
