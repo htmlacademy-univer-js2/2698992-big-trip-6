@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { TYPES } from '../mock/constants.js';
+import { TYPES, CITIES } from '../mock/constants.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { formatDate } from '../utils/utils.js';
@@ -134,12 +134,12 @@ function createEditFormTemplate(state, destinations, allOffers) {
               <span class="visually-hidden">Price</span>
               &euro;
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+            <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" step="1" name="event-price" value="${basePrice}">
           </div>
 
           <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-          <button class="event__reset-btn" type="reset">Delete</button>
-          <button class="event__rollup-btn" type="button">
+          <button class="event__reset-btn" type="reset">${state.id === '' ? 'Cancel' : 'Delete'}</button>
+          <button class="event__rollup-btn" type="button" ${state.id === '' ? 'style="display:none;"' : ''}>
             <span class="visually-hidden">Open event</span>
           </button>
         </header>
@@ -155,6 +155,7 @@ export default class EditFormView extends AbstractStatefulView {
   #destinations = null;
   #offers = null;
   #onFormSubmit = null;
+  #onDeleteClick = null;
   #onRollupClick = null;
   #datepickerFrom = null;
   #datepickerTo = null;
@@ -164,6 +165,7 @@ export default class EditFormView extends AbstractStatefulView {
     destinations,
     offers,
     onFormSubmit,
+    onDeleteClick,
     onRollupClick,
   }) {
     super();
@@ -171,6 +173,7 @@ export default class EditFormView extends AbstractStatefulView {
     this.#destinations = destinations;
     this.#offers = offers;
     this.#onFormSubmit = onFormSubmit;
+    this.#onDeleteClick = onDeleteClick;
     this.#onRollupClick = onRollupClick;
 
     this._restoreHandlers();
@@ -199,6 +202,9 @@ export default class EditFormView extends AbstractStatefulView {
       .querySelector('.event--edit')
       .addEventListener('submit', this.#formSubmitHandler);
     this.element
+      .querySelector('.event__reset-btn')
+      .addEventListener('click', this.#formDeleteClickHandler);
+    this.element
       .querySelector('.event__rollup-btn')
       .addEventListener('click', this.#rollupClickHandler);
     this.element
@@ -207,7 +213,7 @@ export default class EditFormView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
-
+    
     const availableOffersContainer = this.element.querySelector('.event__available-offers');
     if (availableOffersContainer) {
       availableOffersContainer.addEventListener('change', this.#offerChangeHandler);
@@ -272,6 +278,7 @@ export default class EditFormView extends AbstractStatefulView {
     evt.preventDefault();
     const selectedDestination = this.#destinations.find((dest) => dest.name === evt.target.value);
     if (!selectedDestination) {
+      evt.target.value = '';
       return;
     }
     this.updateElement({
@@ -296,7 +303,15 @@ export default class EditFormView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
+    if (!this._state.destination || !this._state.basePrice) {
+      return;
+    }
     this.#onFormSubmit?.(EditFormView.parseStateToPoint(this._state));
+  };
+
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#onDeleteClick?.(EditFormView.parseStateToPoint(this._state));
   };
 
   #rollupClickHandler = (evt) => {

@@ -1,14 +1,10 @@
-const FilterType = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PRESENT: 'present',
-  PAST: 'past',
-};
+import dayjs from 'dayjs';
+import { FilterType } from '../mock/constants.js';
 
-const isFuturePoint = (point) => point.dateFrom > new Date();
+const isFuturePoint = (point) => dayjs().isBefore(dayjs(point.dateFrom));
 const isPresentPoint = (point) =>
-  point.dateFrom <= new Date() && point.dateTo >= new Date();
-const isPastPoint = (point) => point.dateTo < new Date();
+  dayjs().isAfter(dayjs(point.dateFrom)) && dayjs().isBefore(dayjs(point.dateTo));
+const isPastPoint = (point) => dayjs().isAfter(dayjs(point.dateTo));
 
 const filter = {
   [FilterType.EVERYTHING]: (points) => points,

@@ -27,14 +27,26 @@ function createFilterTemplate(filters, currentFilterType) {
 export default class FilterView extends AbstractView {
   #filters = [];
   #currentFilterType = null;
+  #handleFilterTypeChange = null;
 
-  constructor({ filters, currentFilterType }) {
+  constructor({ filters, currentFilterType, onFilterTypeChange }) {
     super();
     this.#filters = filters;
     this.#currentFilterType = currentFilterType;
+    this.#handleFilterTypeChange = onFilterTypeChange;
+
+    this.element.addEventListener('change', this.#filterTypeChangeHandler);
   }
 
   get template() {
     return createFilterTemplate(this.#filters, this.#currentFilterType);
   }
+
+  #filterTypeChangeHandler = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+    evt.preventDefault();
+    this.#handleFilterTypeChange(evt.target.value);
+  };
 }
