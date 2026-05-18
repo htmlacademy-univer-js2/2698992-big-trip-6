@@ -30,7 +30,7 @@ export const calculateDuration = (dateFrom, dateTo) => {
 };
 
 export const sortPointByDay = (pointA, pointB) =>
-  new Date(pointA.dateFrom) - new Date(pointB.dateFrom)
+  new Date(pointA.dateFrom) - new Date(pointB.dateFrom);
 
 export const sortPointByTime = (pointA, pointB) => {
   const timeA = new Date(pointA.dateTo) - new Date(pointA.dateFrom);
