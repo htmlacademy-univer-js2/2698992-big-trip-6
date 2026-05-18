@@ -1,6 +1,7 @@
 import { render, replace, remove } from '../framework/render.js';
 import EditFormView from '../view/edit-form-view.js';
 import PointView from '../view/point-view.js';
+import { UserAction, UpdateType } from '../mock/constants.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -46,13 +47,10 @@ export default class PointPresenter {
 
     this.#editFormComponent = new EditFormView({
       point: this.#point,
-      pointDestination: this.#pointsModel.getDestinationById(
-        this.#point.destination,
-      ),
-      pointOffers: this.#pointsModel.getOffersByType(this.#point.type),
       destinations: this.#pointsModel.destinations,
       offers: this.#pointsModel.offers,
       onFormSubmit: this.#formSubmitHandler,
+      onDeleteClick: this.#deleteClickHandler,
       onRollupClick: this.#rollupClickHandler,
     });
 
@@ -105,15 +103,28 @@ export default class PointPresenter {
   };
 
   #favoriteClickHandler = () => {
-    this.#handleDataChange({
-      ...this.#point,
-      isFavorite: !this.#point.isFavorite,
-    });
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      { ...this.#point, isFavorite: !this.#point.isFavorite }
+    );
   };
 
   #formSubmitHandler = (point) => {
-    this.#handleDataChange(point);
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
     this.#replaceFormToPoint();
+  };
+
+  #deleteClickHandler = (point) => {
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 
   #rollupClickHandler = () => {
