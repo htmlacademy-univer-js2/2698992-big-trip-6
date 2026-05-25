@@ -1,7 +1,7 @@
 import { render, replace, remove } from '../framework/render.js';
 import EditFormView from '../view/edit-form-view.js';
 import PointView from '../view/point-view.js';
-import { UserAction, UpdateType } from '../mock/constants.js';
+import { UserAction, UpdateType } from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',

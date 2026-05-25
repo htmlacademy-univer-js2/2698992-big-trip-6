@@ -37,9 +37,9 @@ function createPointTemplate(point, destination, offers) {
           &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
-        <div class="event__selected-offers">
+        <ul class="event__selected-offers">
           ${offersTemplate}
-        </div>
+        </ul>
         <button class="event__favorite-btn ${favoriteClassName}" type="button">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
