@@ -1,9 +1,10 @@
-import { render, remove } from '../framework/render.js';
+import { render, remove, RenderPosition } from '../framework/render.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import NoPointView from '../view/no-point-view.js';
 import SortView from '../view/sort-view.js';
-import { SortType, UpdateType, UserAction, FilterType } from '../mock/constants.js';
+import LoadingView from '../view/loading-view.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { sortPointByDay, sortPointByTime, sortPointByPrice } from '../utils/utils.js';
 import { filter } from '../utils/filter.js';
 
@@ -17,6 +18,8 @@ export default class PointsPresenter {
   #currentSortType = SortType.DAY;
   #sortComponent = null;
   #noPointComponent = null;
+  #loadingComponent = new LoadingView();
+  #isLoading = true;
 
   constructor({ pointsEventsContainer, pointsModel, filterModel, onNewPointDestroy }) {
     this.#pointsEventsContainer = pointsEventsContainer;
@@ -61,6 +64,11 @@ export default class PointsPresenter {
   }
 
   #renderBoard() {
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
     const points = this.points;
     const pointCount = points.length;
 
@@ -71,6 +79,10 @@ export default class PointsPresenter {
 
     this.#renderSort();
     this.#renderPointList(points);
+  }
+
+  #renderLoading() {
+    render(this.#loadingComponent, this.#pointsEventsContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderNoPoints() {
@@ -104,6 +116,7 @@ export default class PointsPresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -159,6 +172,12 @@ export default class PointsPresenter {
         this.#clearBoard({ resetSortType: true });
         this.#renderBoard();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#clearBoard();
+        this.#renderBoard();
+        break;
     }
   };
 
@@ -167,4 +186,3 @@ export default class PointsPresenter {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 }
-

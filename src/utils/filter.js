@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { FilterType } from '../mock/constants.js';
+import { FilterType } from '../const.js';
 
 const isFuturePoint = (point) => dayjs().isBefore(dayjs(point.dateFrom));
 const isPresentPoint = (point) =>

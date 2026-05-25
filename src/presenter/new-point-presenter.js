@@ -1,6 +1,6 @@
 import { remove, render, RenderPosition } from '../framework/render.js';
 import EditFormView from '../view/edit-form-view.js';
-import { UserAction, UpdateType } from '../mock/constants.js';
+import { UserAction, UpdateType } from '../const.js';
 
 export default class NewPointPresenter {
   #pointListContainer = null;
