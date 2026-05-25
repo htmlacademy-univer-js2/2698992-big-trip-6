@@ -17,7 +17,7 @@ const generateFilters = (points) => [
   {
     type: FilterType.EVERYTHING,
     name: 'Everything',
-    isDisabled: false,
+    isDisabled: filter[FilterType.EVERYTHING](points).length === 0,
   },
   {
     type: FilterType.FUTURE,
