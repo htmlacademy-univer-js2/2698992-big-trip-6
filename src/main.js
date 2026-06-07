@@ -1,51 +1,48 @@
-import PointsPresenter from './presenter/points-presenter.js';
+import TripPresenter from './presenter/trip-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
 import PointsApiService from './points-api-service.js';
 
-const AUTHORIZATION = 'Basic eo0w590ik29889a7';
-const END_POINT = 'https://21.objects.htmlacademy.pro/big-trip';
+const AUTHORIZATION = `Basic ${Math.random().toString(36).substring(2)}`;
+const END_POINT = 'https://24.objects.htmlacademy.pro/big-trip';
 
-const pageMainElement = document.querySelector('.page-main');
-const pageHeaderElement = document.querySelector('.page-header');
-
-const tripControlFiltersElement = pageHeaderElement.querySelector(
-  '.trip-controls__filters'
-);
-const tripEventsElement = pageMainElement.querySelector('.trip-events');
-const newEventButtonElement = pageHeaderElement.querySelector('.trip-main__event-add-btn');
+const headerElement = document.querySelector('.trip-main');
+const filtersContainer = headerElement.querySelector('.trip-controls__filters');
+const tripEventsContainer = document.querySelector('.trip-events');
+const newEventButtonComponent = headerElement.querySelector('.trip-main__event-add-btn');
 
 const pointsModel = new PointsModel({
   pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION)
 });
-
 const filterModel = new FilterModel();
 
+const handleNewEventFormClose = () => {
+  newEventButtonComponent.disabled = false;
+};
+
+const tripPresenter = new TripPresenter({
+  tripEventsContainer,
+  pointsModel,
+  filterModel,
+  onNewPointDestroy: handleNewEventFormClose
+});
+
 const filterPresenter = new FilterPresenter({
-  filterContainer: tripControlFiltersElement,
+  filterContainer: filtersContainer,
   filterModel,
-  pointsModel,
+  pointsModel
 });
 
-const handleNewPointFormClose = () => {
-  newEventButtonElement.disabled = false;
-};
-
-const pointsPresenter = new PointsPresenter({
-  pointsEventsContainer: tripEventsElement,
-  pointsModel,
-  filterModel,
-  onNewPointDestroy: handleNewPointFormClose
+newEventButtonComponent.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  tripPresenter.createPoint();
+  newEventButtonComponent.disabled = true;
 });
-
-const handleNewPointButtonClick = () => {
-  pointsPresenter.createPoint();
-  newEventButtonElement.disabled = true;
-};
 
 filterPresenter.init();
-pointsPresenter.init();
-pointsModel.init().finally(() => {
-  newEventButtonElement.addEventListener('click', handleNewPointButtonClick);
-});
+tripPresenter.init();
+pointsModel.init()
+  .finally(() => {
+    newEventButtonComponent.disabled = false;
+  });

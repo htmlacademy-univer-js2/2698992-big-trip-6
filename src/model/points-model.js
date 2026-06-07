@@ -26,35 +26,38 @@ export default class PointsModel extends Observable {
 
   async init() {
     try {
-      const [points, destinations, offers] = await Promise.all([
-        this.#pointsApiService.points,
-        this.#pointsApiService.destinations,
-        this.#pointsApiService.offers
-      ]);
+      this.#destinations = await this.#pointsApiService.destinations;
+      const offersResponse = await this.#pointsApiService.offers;
 
-      this.#destinations = destinations;
-      this.#offers = offers;
-      this.#points = points.map(this.#adaptToClient);
-    } catch(err) {
+      if (Array.isArray(offersResponse) && offersResponse.length > 0 && offersResponse[0].offers) {
+        this.#offers = offersResponse.flatMap((group) =>
+          (group.offers || []).map((offer) => ({ ...offer, type: group.type })),
+        );
+      } else {
+        this.#offers = offersResponse;
+      }
+
+      const points = await this.#pointsApiService.points;
+      this.#points = points.map((point) => this.#adaptToClient(point));
+      this._notify(UpdateType.INIT);
+    } catch (err) {
       this.#points = [];
       this.#destinations = [];
       this.#offers = [];
+      this._notify(UpdateType.ERROR);
     }
-
-    this._notify(UpdateType.INIT);
   }
 
   async updatePoint(updateType, update) {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      throw new Error('Cant update non-existent point');
+      throw new Error('Can\'t update unexisting point');
     }
 
     try {
       const response = await this.#pointsApiService.updatePoint(update);
       const updatedPoint = this.#adaptToClient(response);
-
       this.#points = [
         ...this.#points.slice(0, index),
         updatedPoint,
@@ -62,7 +65,7 @@ export default class PointsModel extends Observable {
       ];
       this._notify(updateType, updatedPoint);
     } catch (err) {
-      throw new Error('Cant update point');
+      throw new Error('Can\'t update point');
     }
   }
 
@@ -70,13 +73,10 @@ export default class PointsModel extends Observable {
     try {
       const response = await this.#pointsApiService.addPoint(update);
       const newPoint = this.#adaptToClient(response);
-      this.#points = [
-        newPoint,
-        ...this.#points,
-      ];
+      this.#points = [newPoint, ...this.#points];
       this._notify(updateType, newPoint);
-    } catch(err) {
-      throw new Error('Cant add point');
+    } catch (err) {
+      throw new Error('Can\'t add point');
     }
   }
 
@@ -84,7 +84,7 @@ export default class PointsModel extends Observable {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      throw new Error('Cant delete non-existent point');
+      throw new Error('Can\'t delete unexisting point');
     }
 
     try {
@@ -94,14 +94,17 @@ export default class PointsModel extends Observable {
         ...this.#points.slice(index + 1),
       ];
       this._notify(updateType);
-    } catch(err) {
-      throw new Error('Cant delete point');
+    } catch (err) {
+      throw new Error('Can\'t delete point');
     }
   }
 
+  getDestinationById(id) {
+    return this.#destinations.find((destination) => destination.id === id);
+  }
+
   getOffersByType(type) {
-    const allOffers = this.#offers.find((offer) => offer.type === type);
-    return allOffers ? allOffers.offers : [];
+    return this.#offers.filter((offer) => offer.type === type);
   }
 
   getOffersById(type, offerIds) {
@@ -109,22 +112,23 @@ export default class PointsModel extends Observable {
     return offersByType.filter((offer) => offerIds.includes(offer.id));
   }
 
-  getDestinationById(id) {
-    return this.#destinations.find((destination) => destination.id === id);
-  }
-
   #adaptToClient(point) {
-    const adaptedPoint = {...point,
+    const adaptedPoint = {
+      ...point,
       basePrice: point['base_price'],
       dateFrom: point['date_from'] !== null ? new Date(point['date_from']) : point['date_from'],
       dateTo: point['date_to'] !== null ? new Date(point['date_to']) : point['date_to'],
       isFavorite: point['is_favorite'],
+      destinationId: point['destination'],
+      offerIds: point['offers']
     };
 
     delete adaptedPoint['base_price'];
     delete adaptedPoint['date_from'];
     delete adaptedPoint['date_to'];
     delete adaptedPoint['is_favorite'];
+    delete adaptedPoint['destination'];
+    delete adaptedPoint['offers'];
 
     return adaptedPoint;
   }
