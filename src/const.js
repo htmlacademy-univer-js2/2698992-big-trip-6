@@ -1,12 +1,14 @@
-export const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-
-export const SortType = {
-  DAY: 'sort-day',
-  EVENT: 'sort-event',
-  TIME: 'sort-time',
-  PRICE: 'sort-price',
-  OFFER: 'sort-offer'
-};
+export const EVENT_TYPES = [
+  'taxi',
+  'bus',
+  'train',
+  'ship',
+  'drive',
+  'flight',
+  'check-in',
+  'sightseeing',
+  'restaurant',
+];
 
 export const FilterType = {
   EVERYTHING: 'everything',
@@ -14,6 +16,16 @@ export const FilterType = {
   PRESENT: 'present',
   PAST: 'past',
 };
+
+export const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFER: 'offer',
+};
+
+export const DEFAULT_SORT_TYPE = SortType.DAY;
 
 export const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
@@ -26,4 +38,5 @@ export const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',
+  ERROR: 'ERROR',
 };
