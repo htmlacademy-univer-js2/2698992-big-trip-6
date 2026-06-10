@@ -4,8 +4,12 @@ import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
 import PointsApiService from './points-api-service.js';
 
-const AUTHORIZATION = `Basic ${Math.random().toString(36).substring(2)}`;
+const AUTHORIZATION_PREFIX = 'Basic ';
+const AUTHORIZATION_RADIX = 36;
+const AUTHORIZATION_SLICE_START = 2;
 const END_POINT = 'https://24.objects.htmlacademy.pro/big-trip';
+
+const AUTHORIZATION = `${AUTHORIZATION_PREFIX}${Math.random().toString(AUTHORIZATION_RADIX).substring(AUTHORIZATION_SLICE_START)}`;
 
 const headerElement = document.querySelector('.trip-main');
 const filtersContainer = headerElement.querySelector('.trip-controls__filters');
