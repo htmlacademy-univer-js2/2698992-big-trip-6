@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import dayjs from 'dayjs';
-import { escapeHTML } from '../utils/common.js';
+import { createIdMap, escapeHTML } from '../utils/common.js';
 
 const MAX_ROUTE_NAMES = 3;
 const DATE_FORMAT_SHORT = 'D MMM';
@@ -59,8 +59,8 @@ const createTotal = (points, offersById) => {
 };
 
 const createTemplate = (points, destinations, offers) => {
-  const destinationsById = new Map(destinations.map((d) => [d.id, d]));
-  const offersById = new Map((offers || []).map((o) => [o.id, o]));
+  const destinationsById = createIdMap(destinations);
+  const offersById = createIdMap(offers);
 
   const title = createTitle(points, destinationsById);
   const dates = createDates(points);

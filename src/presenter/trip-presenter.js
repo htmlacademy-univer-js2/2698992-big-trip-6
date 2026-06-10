@@ -9,6 +9,7 @@ import NewPointPresenter from './new-point-presenter.js';
 import TripInfoView from '../view/trip-info-view.js';
 import { filter } from '../utils/filter.js';
 import { sortPointDay, sortPointTime, sortPointPrice } from '../utils/sort.js';
+import { createIdMap } from '../utils/common.js';
 import { SortType, UpdateType, UserAction, DEFAULT_SORT_TYPE, FilterType } from '../const.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
@@ -31,9 +32,9 @@ export default class TripPresenter {
   #currentSortType = DEFAULT_SORT_TYPE;
 
   #destinations = null;
-  #destinationsById = null;
+  #destinationsMap = null;
   #offers = null;
-  #offersById = null;
+  #offersMap = null;
   #headerContainer = null;
   #tripInfoComponent = null;
   #newPointPresenter = null;
@@ -101,7 +102,7 @@ export default class TripPresenter {
       this.#listEmptyComponent = null;
     }
     render(this.#listComponent, this.#tripEventsContainer);
-    this.#newPointPresenter.init(this.destinations, new Map(this.destinations.map((d) => [d.id, d])), this.offers);
+    this.#newPointPresenter.init(this.destinations, createIdMap(this.destinations), this.offers);
   }
 
   #renderBoard() {
@@ -131,9 +132,9 @@ export default class TripPresenter {
     }
 
     this.#destinations = this.#pointsModel.destinations;
-    this.#destinationsById = new Map(this.#destinations.map((d) => [d.id, d]));
+    this.#destinationsMap = createIdMap(this.#destinations);
     this.#offers = this.#pointsModel.offers;
-    this.#offersById = new Map(this.#offers.map((o) => [o.id, o]));
+    this.#offersMap = createIdMap(this.#offers);
 
     if (pointsCount === 0) {
       this.#renderListEmpty();
@@ -180,9 +181,9 @@ export default class TripPresenter {
       const pointPresenter = new PointPresenter({
         point,
         destinations: this.#destinations,
-        destinationsById: this.#destinationsById,
+        destinationsById: this.#destinationsMap,
         offers: this.#offers,
-        offersById: this.#offersById,
+        offersById: this.#offersMap,
         listContainer: this.#listComponent.element,
         onDataChange: this.#handleViewAction,
         onModeChange: this.#handlePointModeChange,
